@@ -1,10 +1,49 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Regular Expression Tester</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+	<div class="container">
+	    <div class="row">
+	    	<div class="form-group">
+			  <label for="regex">Regex:</label>
+			  <input type="text" class="form-control" id="regex"/>
+			</div>
+	    </div>
+	    <div class="row">
+	    	<div class="form-group">
+			  <label for="txt">Text:</label>
+			  <textarea rows="5" class="form-control" style="resize: none;" id="txt"/>
+			</div>
+	    </div>
+	    <div class="row">
+			<button type="button" onclick="search()" class="btn btn-default">Search</button>
+	    </div>
+	    <div class="row">
+	    	<div class="form-group">
+			  <label for="result">Result:</label>
+			  <input type="text" class="form-control" id="result" disabled="true"/>
+			</div>
+	    </div>
+    </div>
 </body>
+<script>
+ function search() {
+	 $.ajax({
+       url: '/regex/search',
+       data: ({regex : $('#regex').val(), txt: $('#txt').val()}),
+       success: function(data) {
+         $('#result').val("... " + data.result);
+       },
+       error: function(e) {
+    	 alert("Error: " + e);
+       }
+     });
+ }
+</script>
 </html>
