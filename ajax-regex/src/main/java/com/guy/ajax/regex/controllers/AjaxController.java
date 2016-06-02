@@ -15,17 +15,30 @@ public class AjaxController {
 
 	@RequestMapping("/regex/search")
     public @ResponseBody RegexResult searchAPI(@RequestParam(value="regex", required=true) String regex, @RequestParam(value="txt", required=true) String txt) {
+		System.out.println(regex + ", " + txt);
+		
 		RegexResult result = new RegexResult();
 		
-		System.out.println(regex + " " + txt);
+//		String r = txt;
+//		
+//		Matcher m = null;
+//		try {
+//			Pattern p = Pattern.compile(regex);
+//			m = p.matcher(txt);
+//		} catch (Exception e) {
+//			
+//		}
+//		
+//		while (m != null && m.find()) {
+//			String match = m.group();
+//			r = r.replace(match, "<span class='hilight'>" + match + "</span>");
+//		}
 		
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(txt);
-		
-		if (m.matches()) {
-			result.setResult("Found a match!");
-		} else {
-			result.setResult("No match.");
+		try {
+			result.setResult(txt.replaceAll("(" + regex + ")", "<span class='hilight'>$1</span>"));
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setResult(txt);
 		}
 		
 		System.out.println(result.getResult());
